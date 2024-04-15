@@ -68,6 +68,14 @@ jobs:
           path: dist
   deploy:
     needs: build
-    uses: ./.github/workflows/reusable.yml
+    uses: ./.github/workflows/reusable.yml # yml of the workflow to use
     with:
-      artifact-name: dist-files
+      artifact-name: dist-files # To pass the variable over to reusable.yml
+    # secrets:
+    #   some-secret: ${{ secrets.some-secret }} # To pass the secret over to reusable.yml
+  print-deploy-result:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deploy output
+        run: echo "${{ needs.deploy.outputs.result }}"
