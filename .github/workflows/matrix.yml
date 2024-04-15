@@ -6,10 +6,19 @@ on:
 
 jobs:
   lint:
+    continue-on-error: true
     strategy:
       matrix:
         node-version: [12, 14, 16]
         operating-system: [ubuntu-latest, windows-latest]
+        # Exclude combination in the matrix
+        exclude:
+          - node-version: 12
+            operating-system: windows-latest
+        # Add single combination not part of matrix
+        include:
+          - node-version: 18
+            operating-system: ubuntu-latest
     runs-on: ${{ matrix.operating-system }}
     steps:
       - name: Get code
